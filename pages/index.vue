@@ -544,7 +544,6 @@ export default defineComponent({
                     ][1].text
 
             }
-        },
         }
     }
 })
