@@ -1,0 +1,191 @@
+<ul role="list" class="divide-y divide-gray-200">
+                                        <li v-for="item in currentItems" :key="item.LocalizationNameVariable"
+                                            class="py-8 px-3 hover:bg-gray-100">
+                                            <div class="relative focus-within:ring-2 focus-within:ring-indigo-500">
+                                                <div>
+                                                    <img :src="`https://render.albiononline.com/v1/item/${item.UniqueName}.png`"
+                                                        alt="item" class="object-cover h-24 w-24">
+                                                </div>
+                                                <h3 class="text-sm font-semibold text-gray-800">
+                                                    <div>
+                                                        <!-- Extend touch target to entire panel -->
+                                                        <span class="absolute inset-0" aria-hidden="true" />
+                                                        {{ item.LocalizedNames?.[localLang] }}
+                                                    </div>
+                                                </h3>
+                                                <p class="mt-1 text-sm text-gray-600 line-clamp-2">
+                                                    {{ item.LocalizedDescriptions?.[localLang] }}
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+
+                                    <Card v-for="item in currentItems" :key="item.LocalizationNameVariable"
+                                            :src="item.UniqueName" :title="item.LocalizedNames?.[localLang]"
+                                            :description="item.LocalizedDescriptions?.[localLang]" />
+
+
+
+
+
+
+
+                                            <div class="text-center" v-if="marketItems">
+            <nav class="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8"
+                aria-label="Pagination">
+                <div class="hidden sm:block">
+                    <p class="text-sm text-gray-700">
+                        Mostrando
+                        {{ ' ' }}
+                        <span class="font-medium">{{ currentPage * perPage - 9 }}</span>
+                        {{ ' ' }}
+                        a
+                        {{ ' ' }}
+                        <span class="font-medium">{{ currentPage * perPage }}</span>
+                        {{ ' ' }}
+                        de
+                        {{ ' ' }}
+                        <span class="font-medium">{{ marketItems.length }}</span>
+                        {{ ' ' }}
+                        resultados
+                    </p>
+                </div>
+                <div class="flex-1 flex justify-between sm:justify-end">
+                    <button @click="previousPage" :class="[isFirstPage ? 'bg-slate-400' : 'bg-cyan-600']"
+                        class="mr-2 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white"
+                        :disabled="isFirstPage">Anterior</button>
+                    <button @click="nextPage" :class="[isLastPage ? 'bg-slate-400' : 'bg-cyan-600']"
+                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white"
+                        :disabled="isLastPage">Siguiente</button>
+                </div>
+            </nav>
+        </div>
+
+
+
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mb-5 flex justify-between">
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Tier</label>
+                    <select v-model="tier"
+                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option v-for="(tier, key) in tiers[
+                            langs[defaultLang].text.toLowerCase()
+                        ]" :value="tier.value" :key="key">{{
+        tier.text
+}}</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Encantamiento</label>
+                    <select v-model="enchament"
+                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option v-for="(enchament, key) in enchaments[
+                            langs[defaultLang].text.toLowerCase()
+                        ]" :value="enchament.value" :key="key">{{
+        enchament.text
+}}</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Calidad</label>
+                    <select v-model="quality"
+                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option v-for="(quality, key) in qualities[
+                            langs[defaultLang].text.toLowerCase()
+                        ]" :value="quality.value" :key="key">{{
+        quality.text
+}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="flex mt-4">
+                        <div class="w-20 h-20">
+                            <div class="flex flex-col">
+                                <img src="https://render.albiononline.com/v1/item/T8_POTION_CLEANSE.png?count=10&quality=0"
+                                    alt="">
+                                <div class="space-y-4">
+                                    <div class="flex justify-center items-center">
+                                        <input :id="`E1`" name="notification-method" type="radio"
+                                            :checked="`E1` === 'E1'"
+                                            class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" />
+                                        <label :for="`E1`"
+                                            class="ml-3 block text-sm font-medium text-gray-700">
+                                            {{ `E1` }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-20 h-20">
+                            <div class="flex flex-col">
+                                <img src="https://render.albiononline.com/v1/item/T8_POTION_CLEANSE.png?count=10&quality=0"
+                                    alt="">
+                                <span class="text-center">E2</span>
+                            </div>
+                        </div>
+                        <div class="w-20 h-20">
+                            <div class="flex flex-col">
+                                <img src="https://render.albiononline.com/v1/item/T8_POTION_CLEANSE.png?count=10&quality=0"
+                                    alt="">
+                                <span class="text-center">E3</span>
+                            </div>
+                        </div>
+                        <div class="w-20 h-20">
+                            <div class="flex flex-col">
+                                <img src="https://render.albiononline.com/v1/item/T8_POTION_CLEANSE.png?count=10&quality=0"
+                                    alt="">
+                                <span class="text-center">E4</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <RadioGroup v-model="selectedEnchantment">
+                                <RadioGroupLabel class="block text-sm font-medium text-gray-700">Choose a label color
+                                </RadioGroupLabel>
+                                <div class="mt-4 flex items-center space-x-3" v-if="enchaments">
+                                    <RadioGroupOption as="template" v-for="color in enchantments" :key="color.name"
+                                        :value="color" v-slot="{ active, checked }">
+                                        <div
+                                            :class="[color.selectedColor, active && checked ? 'ring ring-offset-1' : '', !active && checked ? 'ring-2' : '', '-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none']">
+                                            <RadioGroupLabel as="span" class="sr-only">{{ color.name }}
+                                            </RadioGroupLabel>
+                                            <span aria-hidden="true"
+                                                :class="[color.bgColor, 'h-8 w-8 border border-black border-opacity-10 rounded-full']" />
+                                        </div>
+                                    </RadioGroupOption>
+                                </div>
+                            </RadioGroup>
+
+
+
+
+
+                            /* this.marketItems.map((item) => {
+                if (
+                    item.itemName
+                        .toLowerCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .includes(
+                            this.search
+                                .toLowerCase()
+                                .normalize('NFD')
+                                .replace(/[\u0300-\u036f]/g, '')
+                        )
+                ) {
+                    result.push(item)
+
+                }
+            }) */
